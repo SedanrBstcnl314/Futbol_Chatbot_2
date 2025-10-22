@@ -3,14 +3,14 @@
 Bu proje, **Akbank GenAI Bootcamp** kapsamında,popüler futbol ligleri ve takımları hakkında güncel ve doğru bilgi sağlayabilen **RAG (Retrieval-Augmented Generation)** tabanlı futbol analiz chatbotudur.  
 Kullanıcılar, Süper Lig futbolcuları ve takımları hakkında doğal dilde sorular sorarak istatistiksel bilgilere ulaşabilirler.  
 
-## 📘 Proje Özeti
+## 🎯 Projenin Amacı
 Bu proje, **Türkiye Süper Ligi futbolcuları ve takımları** hakkında verileri kullanarak istatistiksel analizler ve akıllı sorgulamalar yapabilen bir **Streamlit tabanlı Chatbot** uygulamasıdır.
 
 Chatbot; LangChain, ChromaDB(vektör veritabanı), LLM (Large Language Model) ve embedding modeli Gemini API (Google Generative AI) tabanlı bir **RAG (Retrieval-Augmented Generation)** mimarisi kullanarak futbol istatistiklerini analiz eder, karşılaştırmalar yapar ve doğal dilde verilen sorulara yanıt verir.
 
 ---
 
-Bu projede, Türkiye Süper Lig istatistiklerini içeren yapılandırılmış bir veri seti kullanılmıştır.
+💾 Bu projede, Türkiye Süper Lig istatistiklerini içeren yapılandırılmış bir veri seti kullanılmıştır.
 
 **Kaynak:** Veri seti, [Kaggle - Turkish Super League](https://www.kaggle.com/datasets/edacelikeloglu/turkish-super-league?utm_source=chatgpt.com) adresinden alınmıştır.
 
@@ -57,7 +57,7 @@ Temizlenmiş nihai veri seti (players.csv) RAG işlemine hazır hale getirilmiş
 
 ---
 
-## Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
+## 🛠️ Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
 
 Proje, Google'ın güçlü Gemini modellerini kullanarak LangChain ve doğrudan ChromaDB/Gemini SDK entegrasyonuyla kurulu bir RAG mimarisi ile hayata geçirilmiştir.
 
@@ -90,7 +90,7 @@ graph TD
 
 ## 🖥️ Geliştirme Ortamı
 
-Projenin tüm kodlama, temizleme, embedding ve Streamlit arayüz geliştirme aşamaları Visual Studio Code (VS Code) ortamında gerçekleştirilmiştir.
+Projenin tüm kodlama, temizleme, embedding ve Streamlit arayüz geliştirme aşamaları ```Visual Studio Code (VS Code)``` ortamında gerçekleştirilmiştir.
 
 ---
 
