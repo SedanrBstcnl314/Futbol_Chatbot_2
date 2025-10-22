@@ -6,6 +6,14 @@ import matplotlib.pyplot as plt
 import unicodedata
 import re 
 
+import subprocess
+
+CHROMA_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
+if not os.path.exists(CHROMA_DIR):
+    st.warning("⚙️ Chroma veritabanı oluşturuluyor... Lütfen bekleyin ⏳")
+    subprocess.run(["python", "src/vector_store.py"], check=True)
+
+
 # ===============================
 # 📚 RAG KÜTÜPHANELERİ VE API YÖNETİMİ
 # ===============================
