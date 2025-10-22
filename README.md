@@ -57,22 +57,45 @@ Temizlenmiş nihai veri seti (players.csv) RAG işlemine hazır hale getirilmiş
 
 ---
 
-## Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
+##🛠️ Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
 
 Proje, Google'ın güçlü Gemini modellerini kullanarak LangChain ve doğrudan ChromaDB/Gemini SDK entegrasyonuyla kurulu bir RAG mimarisi ile hayata geçirilmiştir.
 
-Bileşen | Kullanılan Teknoloji | Amaç
+Bileşen
 
-Büyük Dil Modeli (LLM) | Google Gemini API (gemini-2.5-flash) | Kullanıcının sorusunu anlama ve bağlamı zenginleştirilmiş yanıtı üretme.
+Kullanılan Teknoloji
 
-Vektörleştirme (Embedding) | Çift Katmanlı Model: Gemini API (models/embedding-001) ve Sentence-Transformers (all-MiniLM-L6-v2) | Veri setindeki metin parçalarını sayısal vektörlere dönüştürerek anlamsal benzerlik aramasını mümkün kılma. Gemini başarısız olursa Sentence-Transformers fallback olarak kullanılır.
+Amaç
 
-Vektör Veritabanı | ChromaDB | Vektörleri depolama ve sorgu vektörüne en yakın (benzer) doküman parçalarını hızlıca getirme (Retrieval).
+Büyük Dil Modeli (LLM)
 
-RAG Akışı | LangChain (Retriever ve Chain oluşturma) & Doğrudan SDK (Embedding oluşturma) | Tüm RAG bileşenlerini verimli bir şekilde bir araya getirme.
+Google Gemini API (gemini-2.5-flash)
 
-Web Arayüzü | Streamlit | Kullanıcı dostu ve hızlı bir arayüz ile chatbot'u yayınlama (Deployment).
+Kullanıcının sorusunu anlama ve bağlamı zenginleştirilmiş yanıtı üretme.
 
+Vektörleştirme (Embedding)
+
+Çift Katmanlı Model: Gemini API (models/embedding-001) ve Sentence-Transformers (all-MiniLM-L6-v2)
+
+Veri setindeki metin parçalarını sayısal vektörlere dönüştürerek anlamsal benzerlik aramasını mümkün kılma. Gemini başarısız olursa Sentence-Transformers fallback olarak kullanılır.
+
+Vektör Veritabanı
+
+ChromaDB
+
+Vektörleri depolama ve sorgu vektörüne en yakın (benzer) doküman parçalarını hızlıca getirme (Retrieval).
+
+RAG Akışı
+
+LangChain (Retriever ve Chain oluşturma) & Doğrudan SDK (Embedding oluşturma)
+
+Tüm RAG bileşenlerini verimli bir şekilde bir araya getirme.
+
+Web Arayüzü
+
+Streamlit
+
+Kullanıcı dostu ve hızlı bir arayüz ile chatbot'u yayınlama (Deployment).
 ---
 
 ## 🏗️ Proje Mimarisi 
