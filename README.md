@@ -57,45 +57,22 @@ Temizlenmiş nihai veri seti (players.csv) RAG işlemine hazır hale getirilmiş
 
 ---
 
-##🛠️ Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
+## Kullanılan Yöntemler ve Çözüm Mimarisi (RAG)
 
 Proje, Google'ın güçlü Gemini modellerini kullanarak LangChain ve doğrudan ChromaDB/Gemini SDK entegrasyonuyla kurulu bir RAG mimarisi ile hayata geçirilmiştir.
 
-Bileşen
+Bileşen | Kullanılan Teknoloji | Amaç
 
-Kullanılan Teknoloji
+Büyük Dil Modeli (LLM) | Google Gemini API (gemini-2.5-flash) | Kullanıcının sorusunu anlama ve bağlamı zenginleştirilmiş yanıtı üretme.
 
-Amaç
+Vektörleştirme (Embedding) | Çift Katmanlı Model: Gemini API (models/embedding-001) ve Sentence-Transformers (all-MiniLM-L6-v2) | Veri setindeki metin parçalarını sayısal vektörlere dönüştürerek anlamsal benzerlik aramasını mümkün kılma. Gemini başarısız olursa Sentence-Transformers fallback olarak kullanılır.
 
-Büyük Dil Modeli (LLM)
+Vektör Veritabanı | ChromaDB | Vektörleri depolama ve sorgu vektörüne en yakın (benzer) doküman parçalarını hızlıca getirme (Retrieval).
 
-Google Gemini API (gemini-2.5-flash)
+RAG Akışı | LangChain (Retriever ve Chain oluşturma) & Doğrudan SDK (Embedding oluşturma) | Tüm RAG bileşenlerini verimli bir şekilde bir araya getirme.
 
-Kullanıcının sorusunu anlama ve bağlamı zenginleştirilmiş yanıtı üretme.
+Web Arayüzü | Streamlit | Kullanıcı dostu ve hızlı bir arayüz ile chatbot'u yayınlama (Deployment).
 
-Vektörleştirme (Embedding)
-
-Çift Katmanlı Model: Gemini API (models/embedding-001) ve Sentence-Transformers (all-MiniLM-L6-v2)
-
-Veri setindeki metin parçalarını sayısal vektörlere dönüştürerek anlamsal benzerlik aramasını mümkün kılma. Gemini başarısız olursa Sentence-Transformers fallback olarak kullanılır.
-
-Vektör Veritabanı
-
-ChromaDB
-
-Vektörleri depolama ve sorgu vektörüne en yakın (benzer) doküman parçalarını hızlıca getirme (Retrieval).
-
-RAG Akışı
-
-LangChain (Retriever ve Chain oluşturma) & Doğrudan SDK (Embedding oluşturma)
-
-Tüm RAG bileşenlerini verimli bir şekilde bir araya getirme.
-
-Web Arayüzü
-
-Streamlit
-
-Kullanıcı dostu ve hızlı bir arayüz ile chatbot'u yayınlama (Deployment).
 ---
 
 ## 🏗️ Proje Mimarisi 
@@ -166,29 +143,28 @@ Tarayıcınızda otomatik olarak açılacaktır (genellikle http://localhost:850
 
 ---
 
-## 📁 Proje Yapısı
+##📁 Proje Yapısı
+
+Projenin dizin yapısı, temizlik, veri hazırlama ve RAG bileşenlerinin modüler bir şekilde ayrılmasını sağlar:
+
 Futbol_Chatbot_2/
 │
-├── app.py         # Ana uygulama (Streamlit arayüzü)
-├── requirements.txt         # Gerekli kütüphaneler
-│── .gitignore
-|── .env
-|── README.md
-|
+├── app.py                     # Ana Streamlit uygulaması (Chatbot arayüzü ve RAG sorgulama mantığı)
+├── requirements.txt           # Gerekli tüm Python kütüphaneleri listesi
+├── .gitignore                 # GitHub'a gönderilmeyecek dosyalar (venv, .env, __pycache__, chroma, vb.)
+├── .env                       # API Anahtarını ve diğer gizli bilgileri tutan dosya
+├── README.md                  # Projenin özetini ve kılavuzunu içeren dosya
+│
 ├── data/
-│ ├── players_raw.csv       # Orijinal veri seti (Kaggle'dan)
-│ └── players.csv            # Temizlenmiş veri seti 
+│   ├── players_raw.csv        # Kaggle'dan indirilen orijinal ham veri seti
+│   └── players.csv            # `process_players.py` ile temizlenmiş ve normalize edilmiş veri seti
 │
 ├── src/
-│ └── process_players.py     # Veri temizleme ve dönüştürme işlemleri
-│└── embed_players.py
-|└── vector_store.py
-|
-|── chroma_db/
-|── chroma/
-| 
-└── venv/ # Sanal ortam (otomatik oluşturulur)
-
+│   ├── process_players.py     # Pandas kullanarak ham veriyi temizleme ve `players.csv`'yi oluşturma script'i
+│   └── embed_data.py          # Veriyi okuyup, embedding oluşturup ChromaDB'ye yükleme script'i
+│
+├── chroma/                    # ChromaDB vektör veritabanının kalıcı olarak saklandığı klasör
+└── venv/                      # Python Sanal Ortam klasörü (Tüm bağımlılıklar buradadır)
 ---
 
 ## ✅Elde Edilen Sonuçlar (Özet)
