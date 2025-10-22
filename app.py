@@ -8,11 +8,6 @@ import re
 
 import subprocess
 
-CHROMA_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
-if not os.path.exists(CHROMA_DIR):
-    st.warning("⚙️ Chroma veritabanı oluşturuluyor... Lütfen bekleyin ⏳")
-    subprocess.run(["python", "src/vector_store.py"], check=True)
-
 
 # ===============================
 # 📚 RAG KÜTÜPHANELERİ VE API YÖNETİMİ
@@ -25,11 +20,14 @@ from langchain_chroma import Chroma
 from langchain.prompts import PromptTemplate  # langchain_core DEĞİL!
 from langchain.chains import RetrievalQA
 
+# Vektör Veritabanı Oluşturmak İçin Ek Gerekli Importlar
+from langchain_community.document_loaders import CSVLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # .env dosyasını yükle ve API anahtarını kontrol et
 load_dotenv() 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-CHROMA_DIR = "chroma_db"
+CHROMA_DIR = os.path.join(os.path.dirname(__file__), "chroma_db")
 
 if not GEMINI_API_KEY:
     st.error("❌ HATA: .env dosyasında **GEMINI_API_KEY** bulunamadı!")
@@ -294,15 +292,15 @@ def handle_conditional_query(query_norm: str) -> str | None:
 # 🤖 RAG MİMARİSİ KURULUMU (Analitik ve Yorumlayıcı Yanıtlar)
 # ===============================
 
-@st.cache_resource
+@st.cache_resource(show_spinner="Vektör Veritabanı Yükleniyor/Oluşturuluyor...")
 def setup_rag_pipeline():
     """Vektör veritabanını yükler ve RAG zincirini kurar."""
     
-    if not os.path.isdir(CHROMA_DIR):
-        st.error(f"❌ Vektör veritabanı bulunamadı: {CHROMA_DIR}")
-        st.warning("⚠️ Lütfen önce terminalde şunu çalıştırın: python src/vector_store.py")
-        st.stop()
-        return None
+    ##if not os.path.isdir(CHROMA_DIR):
+    ##    st.error(f"❌ Vektör veritabanı bulunamadı: {CHROMA_DIR}")
+    ##    st.warning("⚠️ Lütfen önce terminalde şunu çalıştırın: python src/vector_store.py")
+    ##    st.stop()
+    ##    return None
     
     
     # 1. Embedding Modeli ve Vektör Depolama
@@ -311,11 +309,45 @@ def setup_rag_pipeline():
         google_api_key=GEMINI_API_KEY
     )
     
-    # 2.ChromaDB'yi belgeler ve embedding modeliyle oluştur
-    vectorstore = Chroma(
-        persist_directory=CHROMA_DIR, 
-        embedding_function=embeddings_model # Hangi embedding fonksiyonu ile oluşturulduysa o belirtilmeli
-    )
+    # --- 2. Vektör Veritabanı Kontrolü ve Yükleme/Oluşturma (Cloud'a Uyumlu Kısım) ---
+    if not os.path.isdir(CHROMA_DIR):
+        # ⚠️ Veritabanı YOK! Streamlit Cloud ortamında veritabanı oluşturulacak
+        
+        if not os.path.exists(DATA_PATH):
+            st.error(f"FATAL HATA: Veri dosyası bulunamadı: `{DATA_PATH}`. Lütfen `data/players.csv` dosyasının GitHub'da olduğundan emin olun.")
+            st.stop()
+            return None
+            
+        st.info(f"Vektör Veritabanı ({CHROMA_DIR}) bulunamadı. Lütfen bekleyin, veritabanı oluşturuluyor...")
+
+        try:
+            # Buradaki Mantık, sizin src/vector_store.py dosyanızın içindekiyle aynıdır!
+            loader = CSVLoader(file_path=DATA_PATH, encoding="utf-8")
+            documents = loader.load()
+
+            splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+            docs = splitter.split_documents(documents)
+
+            # Veritabanını oluştur ve diske kaydet
+            vectorstore = Chroma.from_documents(
+                documents=docs,
+                embedding=embeddings_model, 
+                persist_directory=CHROMA_DIR
+            )
+            st.success("✅ Vektör Veritabanı başarıyla oluşturuldu!")
+        
+        except Exception as e:
+            st.error(f"Vektör Veritabanı oluşturulurken hata oluştu: {e}")
+            st.stop()
+            return None
+    else:
+        # 🟢 Veritabanı VAR (Lokalde veya Cloud'un cache'inde), SADECE YÜKLÜYORUZ.
+        st.info(f"Vektör Veritabanı bulundu, yükleniyor...")
+        vectorstore = Chroma(
+            persist_directory=CHROMA_DIR, 
+            embedding_function=embeddings_model 
+        )
+        st.success("✅ Vektör Veritabanı yüklendi!")
     
     # 3. LLM Modelini Tanımlama
     llm_model = ChatGoogleGenerativeAI(
