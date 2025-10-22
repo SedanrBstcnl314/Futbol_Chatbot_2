@@ -77,7 +77,7 @@ Web Arayüzü | Streamlit | Kullanıcı dostu ve hızlı bir arayüz ile chatbot
 
 ## 🏗️ Proje Mimarisi 
 
-```mermaid
+```
 graph TD
     A[📂 CSV Veri players_raw.csv] -->|(players.csv)| --> B[🧹 process_players.py<br/>Veri temizleme ve dönüştürme]
     B|Embedding oluştur| --> C[📦 embed_players.py<br/>Gemini + SentenceTransformer Embedding]
@@ -143,7 +143,7 @@ Tarayıcınızda otomatik olarak açılacaktır (genellikle http://localhost:850
 
 ---
 
-##📁 Proje Yapısı
+## 📁 Proje Yapısı
 
 Projenin dizin yapısı, temizlik, veri hazırlama ve RAG bileşenlerinin modüler bir şekilde ayrılmasını sağlar:
 
