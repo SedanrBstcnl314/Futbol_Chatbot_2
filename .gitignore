@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+*.sqlite3
+
+# Data / DB / secrets
+.env
+chroma_db/
+chroma/
+*.db
+/.streamlit/secrets.toml
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

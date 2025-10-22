@@ -1,0 +1,33 @@
+# Temel Paketler
+pandas
+numpy
+streamlit
+python-dotenv
+
+# Yardımcı Kütüphaneler
+rapidfuzz
+matplotlib
+
+# Google Gemini
+google-generativeai
+google-ai-generativelanguage
+
+# RAG ve Embedding
+langchain
+langchain-core
+langchain-community
+
+# LangChain Google Entegrasyonu
+langchain-google-genai
+
+# Diğer LangChain Paketleri
+langchain-chroma
+langchain-huggingface
+langchain-text-splitters
+
+# Vector Store ve Embeddings
+chromadb
+sentence-transformers
+
+# Pydantic (Uyumluluk)
+pydantic
