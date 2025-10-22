@@ -88,11 +88,9 @@ graph TD
 ```
 ---
 
-🖥️ Geliştirme Ortamı
+## 🖥️ Geliştirme Ortamı
 
 Projenin tüm kodlama, temizleme, embedding ve Streamlit arayüz geliştirme aşamaları Visual Studio Code (VS Code) ortamında gerçekleştirilmiştir.
-
----
 
 ---
 
@@ -149,34 +147,21 @@ Projenin dizin yapısı, temizlik, veri hazırlama ve RAG bileşenlerinin modül
 
 **Futbol_Chatbot_2/**
 │
-
 ├── **app.py**                     # Ana Streamlit uygulaması (Chatbot arayüzü ve RAG sorgulama mantığı)
-
 ├── **requirements.txt**           # Gerekli tüm Python kütüphaneleri listesi
-
 ├── **.gitignore**                 # GitHub'a gönderilmeyecek dosyalar (venv, .env, __pycache__, chroma, vb.)
-
 ├── **.env**                      # API Anahtarını ve diğer gizli bilgileri tutan dosya
-
 ├── **README.md**                  # Projenin özetini ve kılavuzunu içeren dosya
-
 │
 ├── **data/**
-
 │   ├── **players_raw.csv**        # Kaggle'dan indirilen orijinal ham veri seti
-
 │   └── **players.csv**            # `process_players.py` ile temizlenmiş ve normalize edilmiş veri seti
-
 │
 ├── **src/**
-
 │   ├── **process_players.py**     # Pandas kullanarak ham veriyi temizleme ve `players.csv`'yi oluşturma script'i
-
 │   └── **embed_data.py**          # Veriyi okuyup, embedding oluşturup ChromaDB'ye yükleme script'i
-
 │
 ├── **chroma/**                    # ChromaDB vektör veritabanının kalıcı olarak saklandığı klasör
-
 └── **venv/**                      # Python Sanal Ortam klasörü (Tüm bağımlılıklar buradadır)
 
 ---
